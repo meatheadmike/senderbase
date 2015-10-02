@@ -4,8 +4,14 @@ A python-based screen scraper for the senderbase.org website
 
 Installation
 ============
-Installation::
+Pip install::
 
+  sudo pip install senderbase
+  
+Source install::
+
+  git clone https://github.com/meatheadmike/senderbase
+  cd senderbase
   python setup.py test
   sudo python setup.py install
 
