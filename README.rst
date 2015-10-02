@@ -28,3 +28,4 @@ Notes
 =====
 - This module has only been tested with python 2.7.
 - Make sure you limit your queries to 1000 per day or less. Be a good netizen!
+- I do not work for or with senderbase. This module will likely break in the future if/when senderbase updates their page!
