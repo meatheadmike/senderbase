@@ -10,7 +10,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='senderbase',
-    version='0.1',
+    version='0.2',
     description='A screen scraper for the senderbase.org website',
     long_description=long_description,
     url='https://github.com/meatheadmike/senderbase',
