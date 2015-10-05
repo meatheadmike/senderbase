@@ -34,6 +34,31 @@ class TestSenderbase(unittest.TestCase):
     assert result['fwd_rev_dns_match'] == 'Yes'
 
   '''
+      Test against the IP specific function (should be the same result):
+  '''
+  @mock.patch('requests.post')
+  def test_8_8_8_8_ip_specific(self, requests_post):
+    def mock_requests_post(*args,**kwargs):
+      class __mock():
+        f = open('%s/tests/mocks/8.8.8.8_result.html' % basedir, 'r')
+        text = f.read()
+      return __mock
+    requests_post.side_effect = mock_requests_post
+    s = SenderBase()
+    result = s.lookup_ip('8.8.8.8')
+    assert result is not None
+    assert result['ip'] == '8.8.8.8'
+    assert result['network_owner'] == 'Google'
+    assert result['web_reputation'] == 'Neutral'
+    assert result['black_listed'] == False
+    assert result['host_name'] == 'google-public-dns-a.google.com'
+    assert result['blacklists'][0]['bl.spamcop.net'] == 'Not Listed'
+    assert result['blacklists'][2]['pbl.spamhaus.org'] == 'Not Listed'
+    assert result['web_category'] == 'Search Engines and Portals'
+    assert result['email_reputation'] == 'Good'
+    assert result['fwd_rev_dns_match'] == 'Yes'
+
+  '''
       Test a "bad" IP
   '''
   @mock.patch('requests.post')
@@ -125,6 +150,43 @@ class TestSenderbase(unittest.TestCase):
     end = time.time()
     assert timeout_exception_caught == True
     assert end-start < 1 # Make sure we didn't take too long to run the whole test
-  
+
+  '''
+      Test a domain that returns multiple results:
+  '''
+  @mock.patch('requests.post')
+  def test_amazon_com_multiple(self, requests_post):
+    def mock_requests_post(*args,**kwargs):
+      class __mock():
+        f = open('%s/tests/mocks/amazon.com_multiple_result.html' % basedir, 'r')
+        text = f.read()
+      return __mock
+    requests_post.side_effect = mock_requests_post
+    s = SenderBase()
+    result = s.lookup('amazon.com')
+    assert result is not None
+    assert result == {}
+
+  '''
+      Test domain specific function for amazon.com (we should now see a valid result):
+  '''
+  @mock.patch('requests.post')
+  def test_amazon_com_domain_fucntion(self, requests_post):
+    def mock_requests_post(*args,**kwargs):
+      class __mock():
+        f = open('%s/tests/mocks/amazon.com_domain_result.html' % basedir, 'r')
+        text = f.read()
+      return __mock
+    requests_post.side_effect = mock_requests_post
+    s = SenderBase()
+    result = s.lookup_domain('amazon.com')
+    assert result is not None
+    assert result != {}
+    assert result['host_name'] == 'amazon.com'
+    assert result['domain'] == 'amazon.com' 
+    assert result['web_category'] == 'Shopping'
+    assert result['email_volume']['last_month'] == '5.7'
+    assert result['web_reputation'] == 'Good'
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

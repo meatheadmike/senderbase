@@ -7,6 +7,8 @@ class SenderBase(object):
     'proto': 'http',
     'host': 'www.senderbase.org',
     'lookup': '/lookup/?search_string=',
+    'lookup_domain': '/lookup/domain/?search_string=',
+    'lookup_ip': '/lookup/ip/?search_string=',
     'timeout': 30 # Some requests can take a LONG time.
   }  
 
@@ -31,17 +33,8 @@ class SenderBase(object):
       pass
     return result
 
-  '''
-      Look up either an IP or a domain name with senderbase.org.
-      Example: s = SenderBase()
-               result = s.lookup('8.8.8.8')
-               result = s.lookup('google.com')
-  '''
-  def lookup(self, search_string):
+  def __parse_results(self, html_result):
     result = {}
-    req = '%(proto)s://%(host)s%(lookup)s' % self.config
-    html_result = requests.post('%(req)s%(search_string)s' % {'req':req, 'search_string':search_string}, data=self.payload, timeout=self.config['timeout'])
-    # commence screen scraping:
     clean_html = re.sub(r'<\\?wbr\\?>','',html_result.text)
     self.tree = html.fromstring(clean_html)
 
@@ -85,4 +78,32 @@ class SenderBase(object):
           result['black_listed'] = True
         result['blacklists'].append(blacklist)
     return result
+
+  '''
+      Look up either an IP or a domain name with senderbase.org.
+      When there are multiple results (ie amazon.com), then it comes back blank.
+      Example: s = SenderBase()
+               result = s.lookup('8.8.8.8')
+               result = s.lookup('google.com')
+  '''
+  def lookup(self, search_string):
+    req = '%(proto)s://%(host)s%(lookup)s' % self.config
+    html_result = requests.post('%(req)s%(search_string)s' % {'req':req, 'search_string':search_string}, data=self.payload, timeout=self.config['timeout'])
+    return self.__parse_results(html_result)
+
+  '''
+      Look up a specific domain
+  '''
+  def lookup_domain(self, search_string):
+    req = '%(proto)s://%(host)s%(lookup_domain)s' % self.config
+    html_result = requests.post('%(req)s%(search_string)s' % {'req':req, 'search_string':search_string}, data=self.payload, timeout=self.config['timeout'])
+    return self.__parse_results(html_result)
+
+  '''
+      Look up a specific ip
+  '''
+  def lookup_ip(self, search_string):
+    req = '%(proto)s://%(host)s%(lookup_ip)s' % self.config
+    html_result = requests.post('%(req)s%(search_string)s' % {'req':req, 'search_string':search_string}, data=self.payload, timeout=self.config['timeout'])
+    return self.__parse_results(html_result)
 
