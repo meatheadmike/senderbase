@@ -1,5 +1,6 @@
 import requests, re
 from lxml import html
+import six
 
 class SenderBase(object):
 
@@ -22,7 +23,7 @@ class SenderBase(object):
   '''
   def __init__(self, **kwargs):
     # override config:
-    for key,val in kwargs.iteritems():
+    for key,val in six.iteritems(kwargs):
       self.config[key] = val
 
   def __get_x_val(self, xpath, xobj):
