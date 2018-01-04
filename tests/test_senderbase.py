@@ -15,8 +15,8 @@ class TestSenderbase(unittest.TestCase):
   def test_8_8_8_8(self, requests_post):
     def mock_requests_post(*args,**kwargs):
       class __mock():
-        f = open('%s/tests/mocks/8.8.8.8_result.html' % basedir, 'r')
-        text = f.read()
+        with open('%s/tests/mocks/8.8.8.8_result.html' % basedir, 'r') as f:
+          text = f.read()
       return __mock
     requests_post.side_effect = mock_requests_post
     s = SenderBase()
@@ -40,8 +40,8 @@ class TestSenderbase(unittest.TestCase):
   def test_8_8_8_8_ip_specific(self, requests_post):
     def mock_requests_post(*args,**kwargs):
       class __mock():
-        f = open('%s/tests/mocks/8.8.8.8_result.html' % basedir, 'r')
-        text = f.read()
+        with open('%s/tests/mocks/8.8.8.8_result.html' % basedir, 'r') as f:
+          text = f.read()
       return __mock
     requests_post.side_effect = mock_requests_post
     s = SenderBase()
@@ -65,8 +65,8 @@ class TestSenderbase(unittest.TestCase):
   def test_4_4_4_4(self, requests_post):
     def mock_requests_post(*args,**kwargs):
       class __mock():
-        f = open('%s/tests/mocks/4.4.4.4_result.html' % basedir, 'r')
-        text = f.read()
+        with open('%s/tests/mocks/4.4.4.4_result.html' % basedir, 'r') as f:
+          text = f.read()
       return __mock
     requests_post.side_effect = mock_requests_post
     s = SenderBase()
@@ -90,8 +90,8 @@ class TestSenderbase(unittest.TestCase):
   def test_192_168_0_1(self, requests_post):
     def mock_requests_post(*args,**kwargs):
       class __mock():
-        f = open('%s/tests/mocks/192.168.0.1_result.html' % basedir, 'r')
-        text = f.read()
+        with open('%s/tests/mocks/192.168.0.1_result.html' % basedir, 'r') as f:
+          text = f.read()
       return __mock
     requests_post.side_effect = mock_requests_post
     s = SenderBase()
@@ -106,8 +106,8 @@ class TestSenderbase(unittest.TestCase):
   def test_google_com(self, requests_post):
     def mock_requests_post(*args,**kwargs):
       class __mock():
-        f = open('%s/tests/mocks/google.com_result.html' % basedir, 'r')
-        text = f.read()
+        with open('%s/tests/mocks/google.com_result.html' % basedir, 'r') as f:
+          text = f.read()
       return __mock
     requests_post.side_effect = mock_requests_post
     s = SenderBase()
@@ -127,8 +127,8 @@ class TestSenderbase(unittest.TestCase):
   def test_a_b_c_d(self, requests_post):
     def mock_requests_post(*args,**kwargs):
       class __mock():
-        f = open('%s/tests/mocks/a.b.c.d_result.html' % basedir, 'r')
-        text = f.read()
+        with open('%s/tests/mocks/a.b.c.d_result.html' % basedir, 'r') as f:
+          text = f.read()
       return __mock
     requests_post.side_effect = mock_requests_post
     s = SenderBase()
@@ -158,8 +158,8 @@ class TestSenderbase(unittest.TestCase):
   def test_amazon_com_multiple(self, requests_post):
     def mock_requests_post(*args,**kwargs):
       class __mock():
-        f = open('%s/tests/mocks/amazon.com_multiple_result.html' % basedir, 'r')
-        text = f.read()
+        with open('%s/tests/mocks/amazon.com_multiple_result.html' % basedir, 'r') as f:
+          text = f.read()
       return __mock
     requests_post.side_effect = mock_requests_post
     s = SenderBase()
@@ -174,8 +174,8 @@ class TestSenderbase(unittest.TestCase):
   def test_amazon_com_domain_fucntion(self, requests_post):
     def mock_requests_post(*args,**kwargs):
       class __mock():
-        f = open('%s/tests/mocks/amazon.com_domain_result.html' % basedir, 'r')
-        text = f.read()
+        with open('%s/tests/mocks/amazon.com_domain_result.html' % basedir, 'r') as f:
+          text = f.read()
       return __mock
     requests_post.side_effect = mock_requests_post
     s = SenderBase()
